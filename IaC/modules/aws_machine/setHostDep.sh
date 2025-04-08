@@ -2,10 +2,10 @@
 
 set -e
 
-DOCKER_USER="neeabhishek" 
-DOCKER_PASS="pkhR0adlqx@123#" 
+DOCKER_USER="" #Pass your docker username 
+DOCKER_PASS="" #Pass your docker password 
 
-# Function to wait for APT locks to be released
+#Function to wait for APT locks to be released
 wait_for_apt_lock() {
   echo "Checking for APT locks..."
   while sudo fuser /var/lib/dpkg/lock >/dev/null 2>&1 || \
@@ -16,7 +16,7 @@ wait_for_apt_lock() {
   done
 }
 
-# Function to run a command with retries
+#Function to run a command with retries
 run_with_retry() {
   local max_attempts=10
   local attempt=1
