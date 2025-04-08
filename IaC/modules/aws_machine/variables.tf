@@ -1,10 +1,10 @@
 variable "access_key" {
   type    = string
-  default = "AKIA2ZDCK3WINBCZLF5Z"
+  default = "" #Pass your IAM user access key
 }
 variable "secret_key" {
   type    = string
-  default = "kBpXNrYM5lxxVk/5Gj/2p3XhVNM3YD4kSJ6+eoSB"
+  default = "" #Pass your IAM user secret key
 }
 variable "region" {
   type    = string
@@ -36,5 +36,5 @@ variable "user" {
 }
 variable "notification_email" {
   type    = string
-  default = "neeabhishek@gmail.com"
+  default = "" #Pass your email address for alert notification.
 }
