@@ -64,19 +64,19 @@ resource "aws_instance" "webserver" {
 
   user_data = <<-EOF
               #!/bin/bash
-              # Update package lists
+              set -e
               apt-get update -y
 
-              # Install necessary packages
+              #Install necessary packages
               apt-get install -y wget
 
-              # Download the CloudWatch Agent package
+              #Download the CloudWatch Agent package
               wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
 
-              # Install the CloudWatch Agent
+              #Install the CloudWatch Agent
               dpkg -i -E ./amazon-cloudwatch-agent.deb
 
-              # Create the CloudWatch Agent configuration file
+              #Create the CloudWatch Agent configuration file
               cat > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json <<EOL
               {
                 "agent": {
@@ -99,7 +99,7 @@ resource "aws_instance" "webserver" {
               }
               EOL
 
-              # Start the CloudWatch Agent
+              #Start the CloudWatch Agent
               amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json -s
               EOF
 
