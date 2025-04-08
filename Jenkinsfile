@@ -1,5 +1,10 @@
 pipeline {
     agent any
+
+    triggers {
+        pollSCM('H/5 * * * *')
+    }
+    
     parameters{
         string(name: 'GIT_URL', defaultValue: 'https://github.com/neeabhishek/paper_social.git', description: 'GIT URL')
         string(name: 'DOCKER_USER', defaultValue: '', description: 'Docker User')
