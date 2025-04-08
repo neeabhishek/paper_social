@@ -1,33 +1,34 @@
 pipeline {
     agent any
     parameters{
-        string(name: 'GIT_URL', defaultValue: '', description: 'GIT URL')
-        string(name: 'DOCKER_USER', defaultValue: 'neeabhishek@gmail.com', description: 'Docker User')
-        password(name: 'DOCKER_PASS', defaultValue: 'pkhR0adlqx@123#', description: 'Docker Password')
+        string(name: 'GIT_URL', defaultValue: 'https://github.com/neeabhishek/paper_social.git', description: 'GIT URL')
+        string(name: 'DOCKER_USER', defaultValue: '', description: 'Docker User')
+        password(name: 'DOCKER_PASS', defaultValue: '', description: 'Docker Password')
     }
 
     stages{
         stage('Cloning the Repository') {
             steps {
-                echo "** Cloning the source-code"
+                echo "**** Cloning the source-code ****"
                 git branch: 'main', credentialsId: 'GIT-CRED', url: params.GIT_URL 
             }
         }
 
         stage('Setting up the setUpShell') {
             steps {
-                echo "**** Passing values to variables ****"
-                def WORKSPACE = env.WORKSPACE
-                def DOCKER_USER = params.DOCKER_USER
-                def DOCKER_PASS = params.DOCKER_PASS
-                sh """
-                    cd ${WORKSPACE}/IaC/modules/aws_machine/ && \
-                    sed -i 's/^DOCKER_USER="[^"]*"/DOCKER_USER="'"${DOCKER_USER}"'"/' setHostDep.sh && \
-                    sed -i 's/^DOCKER_PASS="[^"]*"/DOCKER_PASS="'"${DOCKER_PASS}"'"/' setHostDep.sh && \
-                    chmod -R 755 setHostDep.sh 
-                """
-                echo "**** Activity done, exiting from the stage ****"
-                
+                script{
+                    echo "**** Passing values to variables ****"
+                    def WORKSPACE = env.WORKSPACE
+                    def DOCKER_USER = params.DOCKER_USER
+                    def DOCKER_PASS = params.DOCKER_PASS
+                    sh """
+                        cd ${WORKSPACE}/IaC/modules/aws_machine/ && \
+                        sed -i 's/^DOCKER_USER="[^"]*"/DOCKER_USER="'"${DOCKER_USER}"'"/' setHostDep.sh && \
+                        sed -i 's/^DOCKER_PASS="[^"]*"/DOCKER_PASS="'"${DOCKER_PASS}"'"/' setHostDep.sh && \
+                        chmod -R 755 setHostDep.sh 
+                    """
+                    echo "**** Activity done, exiting from the stage ****"
+                }                
             }
         }
 
